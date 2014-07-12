@@ -38,7 +38,7 @@ public class ProposalsManagerGUI extends javax.swing.JFrame {
     
     public void refreshFlash()             
     {
-        System.out.println("Flash:"+ProposalsManager.flash.get());        
+        //System.out.println("Flash:"+ProposalsManager.flash.get());        
         jFlash.setText(ProposalsManager.flash.get());
     }
     

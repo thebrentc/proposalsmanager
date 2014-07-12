@@ -3,6 +3,7 @@ package proposalsManager;
 import java.util.ArrayList;
 
 /* Provides lookup list of applicable reviews for Proposal types */
+ // @ pre (createProposalApplicableReviews) the ApplicableReviewsList lookup class exists
 public class ApplicableReviewsList {
            
     public static ApplicableReview[] applicableReviewsList = {                    

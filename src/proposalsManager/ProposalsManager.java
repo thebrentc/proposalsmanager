@@ -10,9 +10,6 @@ public class ProposalsManager {
     public static ProposalsManagerGUI proposalsManagerGUI;
     public static Flash flash = Flash.getInstance(); // transient messages for user e.g. confirmations or submission check failures   
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         
         UserManager.initDelegations();
@@ -26,14 +23,18 @@ public class ProposalsManager {
         Proposal proposal = null;
         //try
         {
-            proposal = new Proposal(proposalType, code, delegator);
-        
-        } /*catch (Exception e) { 
+            // @post a new instance of a Proposal is created
+            proposal = new Proposal(proposalType, code, delegator);        
+        } 
+        // @post with validated initial information 
+        // @post or an exception is raised        
+        /*catch (Exception e) {             
             System.out.println ("Failed to create new proposal"); 
             proposalsManagerGUI.refreshFlash();  // contains check fail messages
             return;
         }*/
         
+        // @post linked to self
         // add to list using proposal's id as key
         Integer proposalId = proposal.getId();
         proposals.put(proposalId, proposal);  

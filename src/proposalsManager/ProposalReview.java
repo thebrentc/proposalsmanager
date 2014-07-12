@@ -13,6 +13,7 @@ public class ProposalReview  {
     //private Map <Integer, ProposalApplicableReview> proposalApplicableReview =  new HashMap<>(); // optional
     private ProposalReviewData proposalReviewData = new ProposalReviewData();
     
+    // @post creates and returns an instance of a ProposalReview submission     
     public ProposalReview(ProposalApplicableReview proposalApplicableReview, ProposalReviewData proposalReviewData) //throws PropProposalReviewData1eption 
     {        
         // compute and add metadata        
@@ -23,17 +24,14 @@ public class ProposalReview  {
         reviewMetaData.add(new ProposalReviewComponentItem("reviewed",reviewed));        
         proposalReviewData.add(reviewMetaData);                
         
-        // checks and validations        
+        //@post with validated proposalReviewData information ..
         ProposalReviewChecker proposalReviewChecker = new ProposalReviewChecker();
         if (!proposalReviewChecker.check(proposalApplicableReview, proposalReviewData)) { 
             System.out.println("ProposalReviewCheckException");
-            // throw new ProposalReviewCheckException();        
+            // throw new ProposalReviewCheckException(); // @post or an exception is raised       
         }                
         
-        // create with data, linking to proposalApplicableReview
-        //this.proposalApplicableReview.put(proposalApplicableReview.getId(), proposalApplicableReview);
-        this.proposalReviewData = proposalReviewData;
-        
+        this.proposalReviewData = proposalReviewData;        
         // generate and add id
         this.id = counter;
         counter++;        

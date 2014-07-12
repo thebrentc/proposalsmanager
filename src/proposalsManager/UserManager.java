@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * @inv user authentication information available
  * Provides a bridge to the organisation's user authentication system
  * Provides a static list of delegations used by ProposalsManager (currently only for ReviewContact's)
  */

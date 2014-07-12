@@ -24,8 +24,10 @@ abstract class Review {
         reviewComponents.add(new ReviewGeneralInfo());
     }
     
+    // @pre user and delegator checks
+    // @post validated information in proposalReviewData
     public boolean check(ProposalReviewData proposalReviewData)
-    {        
+    {                        
         return (
                 validateRequiredReviewData(proposalReviewData)
                 && 
@@ -79,8 +81,9 @@ abstract class Review {
     
     protected boolean userChecks(ProposalReviewData proposalReviewData)
     {
-        // if review contacts are specified, check that reviewer or delegator are one of these
-        //    and reviewer and delegator (if present) match       
+        // @pre user or delegator (in proposalReviewData) is a specified ReviewContact user, 
+        // and user is a delegate of delegator if relevant 
+        // if ReviewContacts specified
         if (!reviewContacts.isEmpty()) {
             try {
                 boolean usercheck = false;

@@ -37,13 +37,14 @@ public class Proposal
         return proposalApplicableReviews;
     }    
         
+    // @post a new Proposal instance is created, and returned
     public Proposal(ProposalType proposalType, ProspectusCode prospectusCode, UserId delegator) //throws Exception
     {                
         // compute metadata
         UserId proposer = UserManager.getCurrentUserId();  // -> "user"
         Date proposed = new Date();
 
-        // validations and checks
+        // @post validate (and check) information 
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("proposer", proposer);
         data.put("proposed", proposed);
@@ -53,26 +54,34 @@ public class Proposal
         ProposalChecker proposalChecker = new ProposalChecker();
         if (!proposalChecker.check(data)) { // updates 'Flash' with any problem details
             System.out.println("ProposalCheckException");
+            // @post or an exception is raised
             //throw new ProposalCheckException();
         }
         
-        // create with generated id
+        // @post a new instance of a Proposal is created
         this.proposalType = proposalType;
         this.prospectusCode = prospectusCode;
         this.delegator= delegator;
         this.proposer = proposer;
         this.proposed = proposed;
-        this.proposalStatus = ProposalStatus.CREATED;
+        // @post with a unique generated Proposal instance identifier id.
         this.id = counter;        
         counter++; // for next id
+        this.proposalStatus = ProposalStatus.CREATED;        
         
         // create and initialise linked records
+        // @post ProposalApplicableReview instances are created (based on ApplicableReviewsList)
+        // @pre (createProposalApplicableReviews) a Proposal instance is available (in construction)
         createProposalApplicableReviews();        
+        // @post allowed status of the linked ProposalApplicableReview instances are appropriately initialised.
+        // @pre (updateProposalApplicableReviewDependencies) allowed flags initialised ..
         initProposalApplicableReviews(); // sets allowed statuses
+        // @post an AdminInformation instance is created, linked to the Proposal.
         createAdminInformationRecord();
         //createProposalRequiredAdminTasks(); // can wait until final approval
     }        
     
+    // @post ProposalApplicableReview instances are created (based on ApplicableReviewsList)    
     private void createProposalApplicableReviews() 
     {       
         // get list of applicable reviews for this proposal type
@@ -81,21 +90,25 @@ public class Proposal
         // use list to create applicable reviews specific to this proposal
         ReviewSimpleFactory reviewSimpleFactory = new ReviewSimpleFactory();        
         for (ApplicableReview applicableReview : applicableReviews) {
-                                                           
+            // @post created ProposalApplicableReviews linked to a Review of specified type
             ProposalApplicableReview proposalApplicableReview = new ProposalApplicableReview(reviewSimpleFactory.create(applicableReview.getReviewType()), applicableReview.getWeight());
             // ProposalApplicableReview() has default initialisation of reviewStatus                        
-            
-            // add to this proposal's applicable reviews list
+                        
+            // @post ProposalApplicableReviews linked to the Proposal instance 
             Integer proposalApplicableReviewId = proposalApplicableReviews.size(); 
             proposalApplicableReviews.put(proposalApplicableReviewId, proposalApplicableReview);
             
         } 
     }
     
+    // @post createProposal allowed status of the linked ProposalApplicableReview instances are appropriately initialised.
     private void initProposalApplicableReviews() 
     {
+        // @ pre (updateProposalApplicableReviewDependencies) the allowed flags of this Proposal instance’s proposalApplicableReviews have been initialised 
+        // (allowed if proposalApplicableReview is optional or in the first ‘weighting’ level of these proposalApplicableReviews)        
+
         // set first level of required review(s) to allowed 
-        // builds on default initialisation of allowed statuses in ProposalApplicableReview()
+        // builds on default initialisation of allowed statuses in ProposalApplicableReview()        
         
         // get a list of proposalApplicableReviews sorted by weight        
         List<ProposalApplicableReview> applicableReviewsList = new ArrayList<>(proposalApplicableReviews.values());        
@@ -110,7 +123,8 @@ public class Proposal
             }            
         }    
     }
-           
+        
+    // @post createProposal: an AdminInformation instance is created, linked to the Proposal.    
     private void createAdminInformationRecord() 
     {
         this.adminInformation = new AdminInformation();
@@ -130,12 +144,16 @@ public class Proposal
         ProposalReview proposalReview;        
         //try
         {
-            // basic checks of incoming submission (further checks in ProposalReview constructor)
-            if (!(proposalApplicableReview instanceof ProposalApplicableReview) || proposalApplicableReview == null) { 
+            // initial checks
+            // @pre proposalApplicableReview exists and is linked to self
+            if (!(proposalApplicableReview instanceof ProposalApplicableReview) || proposalApplicableReview == null
+                || !this.proposalApplicableReviews.containsValue(proposalApplicableReview)
+               ) { 
                 /* throw new ProposalReviewCheckException(); */ return; 
             }
             
-            // create a proposal review submission, catching any check exception            
+            // @post create a proposal review submission 
+            // @post with validated information in proposalReviewData
            //try
             {          
                 proposalReview = new ProposalReview(
@@ -143,8 +161,10 @@ public class Proposal
                     proposalReviewData
                 );
            
-            } /*catch (ProposalReviewCheckException e) {
-                throw e;
+            }
+            //@post or an exception is raised            
+            /*catch (ProposalReviewCheckException e) {
+                throw e; 
             } */
         } /*catch (Exception exception) { 
  //            System.out.println("Failed to create new proposal review");
@@ -158,40 +178,45 @@ public class Proposal
         Integer proposalReviewId = proposalReviews.size();  
         proposalReviews.put(proposalReviewId, proposalReview);                
         
+        //@post with linkage identifiers (to the relevant proposalApplicableReview)
         // add to proposal's ProposalApplicableReview-ProposalReview association collection
         proposalApplicationReviewSubmissions.putIfAbsent(proposalApplicableReview, new HashSet());
         proposalApplicationReviewSubmissions.get(proposalApplicableReview).add(proposalReview);
-        System.out.println(proposalApplicationReviewSubmissions);        
-                        
-        // update linked proposalRequiredReview status, using linked review template's recommendation given the submitted review data
-        proposalApplicableReview.setReviewStatus(proposalApplicableReview.getReview().recommendReviewStatus(proposalReviewData));
         
+        // @post and status of the linked ProposalApplicableReview instance is updated according to the submitted proposalReviewData
+        // update linked proposalRequiredReview status, using linked review template's recommendation given the submitted review data
+        proposalApplicableReview.setReviewStatus(proposalApplicableReview.getReview().recommendReviewStatus(proposalReviewData));        
         // update linked proposalRequiredReview allowed flag (disallows if a required review is done)
         if (proposalApplicableReview.isRequired() && proposalApplicableReview.isDone()) {
             proposalApplicableReview.setAllowed(false); 
         }
         
-        // update 'allowed' status for other proposal reviews as necessary
+        // @post and ‘allowed’ status of all this Proposal instance’s ProposalApplicableReview instances are updated ..        
         updateProposalApplicableReviewDependencies();  
         
         // update Proposal status
         this.proposalStatus = ProposalStatus.REVIEWING;
         
         String message = proposalApplicableReview.getReview()+" submitted.";
+        System.out.println(message);
         try {
-            ProposalsManager.flash.set(message);
+            ProposalsManager.flash.set(message);            
             ProposalsManager.proposalsManagerGUI.refreshFlash(); 
         } catch (Exception e) { }
     }    
         
-    // toggle allowed flags according to review weights and completions 
+    // @post (submitReview) allowed status of all this Proposal instance’s ProposalApplicableReview instances are updated 
+    // according to the their weightings as affected by the status change of the proposalApplicableReview
+    // @pre proposalApplicableReviews collection exists for this proposal is assumed
     private void updateProposalApplicableReviewDependencies() {
-        System.out.println("updateProposalRequiredReviewDependencies()");
         
-        // get a list of proposalApplicableReviews sorted by weight
+        // get proposalApplicableReviews sorted by weight
         List<ProposalApplicableReview> applicableReviews = new ArrayList<>(proposalApplicableReviews.values());        
         Collections.sort(applicableReviews);
                 
+        // @post updates ‘allowed’ flags of all this Proposal instance’s proposalApplicableReviews 
+        // according to completion status of other proposalApplicableReviews and rank in the weightings.
+        // traverse and set allowed statuses according to lower weighted review statuses        
         for (int i = 0; i < applicableReviews.size(); i++) {
             
             for (int j = i-1; j > 0; j--) {                

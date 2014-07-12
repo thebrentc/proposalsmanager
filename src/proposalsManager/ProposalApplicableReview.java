@@ -26,7 +26,10 @@ public class ProposalApplicableReview implements Comparable<ProposalApplicableRe
     
     public ProposalApplicableReview(Review review, double weight) 
     {        
-        this.review = review;
+        // @post ProposalApplicableReviews linked to a Review of specified type        
+        this.review = review; 
+        // @post the weightings and allowed status of the linked ProposalApplicableReview instances are appropriately initialised.
+        // @post (createProposalApplicableReviews) with the specified weighting
         this.weight = weight;        
         this.allowed = (!isRequired())?true:false;        
         this.reviewStatus = (this.weight>0)?new ReviewStatus("Pending"):new ReviewStatus("");

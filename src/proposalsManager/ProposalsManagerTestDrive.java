@@ -21,7 +21,7 @@ public class ProposalsManagerTestDrive extends ProposalsManager {
         
         ProposalsManager.populateSampleProposals();
         ProposalsManager.proposalsManagerGUI.refreshProposalsList();        
-
+        
         ProposalReviewData proposalReviewData = new ProposalReviewData();
         ProposalReviewData reviewGeneralInfo = new ProposalReviewData(ReviewGeneralInfo.class);
         reviewGeneralInfo.add(new ProposalReviewComponentItem("comments","Generic review"));
@@ -71,7 +71,7 @@ public class ProposalsManagerTestDrive extends ProposalsManager {
         // test with applicable reviews with same weights
         // check proposers
         // check reviewers        
-        
+                
     }    
     
 }

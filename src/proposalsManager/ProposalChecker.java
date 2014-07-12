@@ -16,7 +16,7 @@ class ProposalChecker {
         if (!data.containsKey("prospectusCode") || data.get("prospectusCode") == null || data.get("prospectusCode").toString() == "") { message = "Bad prospectus code"; }        
         if (!data.containsKey("delegator") || ( data.get("delegator") != null && !UserManager.isValidUser((UserId) data.get("delegator")))) { message = "Bad delegator"; }
         
-        //  check proposer or delegator is faculty academic staff
+        // @pre user or delegator is Faculty academic staff
         if (!UserManager.isFacultyAcademicStaff((UserId) data.get("proposer")) && !UserManager.isFacultyAcademicStaff((UserId) data.get("delegator"))) {
             message = "Proposer or delegator must be Faculty academic staff."; 
         }
