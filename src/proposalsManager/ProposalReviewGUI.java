@@ -1,21 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package proposalsManager;
 
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultListModel;
-import static proposalsManager.ProposalsManager.proposals;
-import static proposalsManager.ProposalsManager.proposalsManagerGUI;
 
-/**
- *
- * @author brent
- */
 public class ProposalReviewGUI extends javax.swing.JFrame {
     
     ProposalReviewsGUI proposalReviewsGUI; // needs reference to parent screen
@@ -259,7 +247,7 @@ public class ProposalReviewGUI extends javax.swing.JFrame {
         ProposalReviewData reviewQuery = new ProposalReviewData(ReviewQuery.class);
         reviewQuery.add(new ProposalReviewComponentItem("query",jQuery.getText()));        
         proposalReviewData.add(reviewQuery);        
-        ProposalsManager.proposals.get(0).submitReview(ProposalsManager.proposals.get(0).getProposalApplicableReviews().get(0), proposalReviewData);        
+        ProposalsManager.getProposals().get(0).submitReview(ProposalsManager.getProposals().get(0).getProposalApplicableReviews().get(0), proposalReviewData);        
         Decision decision = null;
         if (jDecisionApprove.isSelected()) decision = new Decision(Decision.Literal.Approved);
         else if (jDecisionReject.isSelected()) decision = new Decision(Decision.Literal.Rejected);

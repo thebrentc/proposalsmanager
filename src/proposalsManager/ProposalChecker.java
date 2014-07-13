@@ -24,7 +24,7 @@ class ProposalChecker {
         // handle check failures
         if (!message.equals("")) {
             System.out.println(message);
-            try { ProposalsManager.flash.add(message); } catch (Exception e) { };
+            try { ProposalsManager.getFlash().add(message); } catch (Exception e) { };
             return false;
         }
         //else

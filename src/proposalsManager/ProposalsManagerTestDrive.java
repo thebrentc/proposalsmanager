@@ -17,17 +17,19 @@ public class ProposalsManagerTestDrive extends ProposalsManager {
     
     public static void main(String[] args) {
         
+        System.out.println("ProposalsManagerTestDrive");
+        
         ProposalsManager.main(args);     
         
         ProposalsManager.populateSampleProposals();
-        ProposalsManager.proposalsManagerGUI.refreshProposalsList();        
+        ProposalsManager.getProposalsManagerGUI().refreshProposalsList();        
         
         ProposalReviewData proposalReviewData = new ProposalReviewData();
         ProposalReviewData reviewGeneralInfo = new ProposalReviewData(ReviewGeneralInfo.class);
         reviewGeneralInfo.add(new ProposalReviewComponentItem("comments","Generic review"));
         reviewGeneralInfo.add(new ProposalReviewComponentItem("delegator",null));
         proposalReviewData.add(reviewGeneralInfo);
-        ProposalsManager.proposals.get(0).submitReview(ProposalsManager.proposals.get(0).getProposalApplicableReviews().get(0), proposalReviewData);        
+        ProposalsManager.getProposals().get(0).submitReview(ProposalsManager.getProposals().get(0).getProposalApplicableReviews().get(0), proposalReviewData);        
         
         proposalReviewData = new ProposalReviewData();
         reviewGeneralInfo = new ProposalReviewData(ReviewGeneralInfo.class);
@@ -37,7 +39,7 @@ public class ProposalsManagerTestDrive extends ProposalsManager {
         ProposalReviewData reviewQuery = new ProposalReviewData(ReviewQuery.class);
         reviewQuery.add(new ProposalReviewComponentItem("query",""));        
         proposalReviewData.add(reviewQuery);
-        ProposalsManager.proposals.get(0).submitReview(ProposalsManager.proposals.get(0).getProposalApplicableReviews().get(1), proposalReviewData);
+        ProposalsManager.getProposals().get(0).submitReview(ProposalsManager.getProposals().get(0).getProposalApplicableReviews().get(1), proposalReviewData);
         
         proposalReviewData = new ProposalReviewData();
         reviewGeneralInfo = new ProposalReviewData(ReviewGeneralInfo.class);
@@ -50,7 +52,7 @@ public class ProposalsManagerTestDrive extends ProposalsManager {
         ProposalReviewData reviewDecision = new ProposalReviewData(ReviewDecision.class);
         reviewDecision.add(new ProposalReviewComponentItem("decision",new Decision(Decision.Literal.Approved)));
         proposalReviewData.add(reviewDecision);
-        ProposalsManager.proposals.get(0).submitReview(ProposalsManager.proposals.get(0).getProposalApplicableReviews().get(2), proposalReviewData);        
+        ProposalsManager.getProposals().get(0).submitReview(ProposalsManager.getProposals().get(0).getProposalApplicableReviews().get(2), proposalReviewData);        
         
         /*
         proposalReviewData = new ProposalReviewData();
@@ -64,14 +66,9 @@ public class ProposalsManagerTestDrive extends ProposalsManager {
         reviewDecision = new ProposalReviewData(ReviewDecision.class);
         reviewDecision.add(new ProposalReviewComponentItem("decision",null));
         proposalReviewData.add(reviewDecision);
-        ProposalsManager.proposals.get(0).submitReview(ProposalsManager.proposals.get(0).getProposalApplicableReviews().get(3), proposalReviewData); 
+        ProposalsManager.getProposals().get(0).submitReview(ProposalsManager.getProposals().get(0).getProposalApplicableReviews().get(3), proposalReviewData); 
         */
-        
-        // test with nulls ...
-        // test with applicable reviews with same weights
-        // check proposers
-        // check reviewers        
-                
+                        
     }    
     
 }

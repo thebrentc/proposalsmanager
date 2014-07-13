@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package proposalsManager;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- *
- * @author brent
- */
+/* Super-type review with defaults */
 abstract class Review {
     
     protected ReviewComponents reviewComponents = new ReviewComponents(); 
@@ -50,7 +41,7 @@ abstract class Review {
                 if (!proposalReviewData.has(reviewComponent.ref)) {
                     String message = this + " should have " + reviewComponent.ref;
                     System.out.println(message);    
-                    try { ProposalsManager.flash.add(message); } catch (Exception e) { }
+                    try { ProposalsManager.getFlash().add(message); } catch (Exception e) { }
                     return false;
                 }
             }
@@ -102,7 +93,7 @@ abstract class Review {
                 if (!usercheck){
                     String message = "Reviewer or delegate don't correspond or aren't designated review contacts."; 
                     System.out.println(message);    
-                    try { ProposalsManager.flash.add(message); } catch (Exception e) { }                
+                    try { ProposalsManager.getFlash().add(message); } catch (Exception e) { }                
                     return false;
                 }
             } catch (ComponentNotFoundException e) { 

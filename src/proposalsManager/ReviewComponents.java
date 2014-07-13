@@ -83,7 +83,7 @@ public class ReviewComponents extends ReviewComponent {
             } catch (Exception exception) { 
                 String message = reviewComponent.ref + " is invalid type.";
                 System.out.println(message);    
-                try { ProposalsManager.flash.add(message); } catch (Exception e) { } 
+                try { ProposalsManager.getFlash().add(message); } catch (Exception e) { } 
                 return false;
             }
             

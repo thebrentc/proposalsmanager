@@ -9,7 +9,6 @@ public class ProposalApplicableReview implements Comparable<ProposalApplicableRe
 
     static private Integer counter = 0; // used to compute id's    
     private Integer id;
-    //private Proposal proposal; //optional
     private Review review;
     private double weight;
     private boolean allowed; 

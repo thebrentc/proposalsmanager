@@ -18,7 +18,7 @@ import org.junit.runners.Suite;
  * @author brent
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ProposalsManagerTest1.class})
+@Suite.SuiteClasses({UserManagerTest.class, ProposalsManagerTest.class, ProposalTest.class })
 public class ProposalsManagerTestSuite {
     
     public ProposalsManagerTestSuite() {

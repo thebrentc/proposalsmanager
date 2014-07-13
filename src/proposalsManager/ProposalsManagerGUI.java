@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package proposalsManager;
 
 import java.awt.Color;
@@ -28,8 +22,8 @@ public class ProposalsManagerGUI extends javax.swing.JFrame {
         DefaultListModel listModel = new DefaultListModel();
         
         //System.out.println ("="+ProposalsManager.proposalCount);
-        for (int c = 0; c < ProposalsManager.proposals.size(); c++) {
-            listModel.addElement(ProposalsManager.proposals.get(c).toString());
+        for (int c = 0; c < ProposalsManager.getProposals().size(); c++) {
+            listModel.addElement(ProposalsManager.getProposals().get(c).toString());
             //System.out.println (":"+ProposalsManager.proposals[c].toString());
         }
         proposalsList.setModel(listModel);
@@ -39,7 +33,7 @@ public class ProposalsManagerGUI extends javax.swing.JFrame {
     public void refreshFlash()             
     {
         //System.out.println("Flash:"+ProposalsManager.flash.get());        
-        jFlash.setText(ProposalsManager.flash.get());
+        jFlash.setText(ProposalsManager.getFlash().get());
     }
     
     public void refresh()             
@@ -187,7 +181,7 @@ public class ProposalsManagerGUI extends javax.swing.JFrame {
         }          
             
         int index = proposalsList.getSelectedIndex();
-        Proposal proposal = ProposalsManager.proposals.get(index);
+        Proposal proposal = ProposalsManager.getProposals().get(index);
         ProposalReviewsGUI proposalReviewsGUI = new ProposalReviewsGUI(proposal);         
         proposalReviewsGUI.setVisible(true);
     }//GEN-LAST:event_jButtonViewActionPerformed
@@ -208,7 +202,7 @@ public class ProposalsManagerGUI extends javax.swing.JFrame {
 
     private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
         //System.out.println("formWindowLostFocus");
-        ProposalsManager.flash.clear();
+        ProposalsManager.getFlash().clear();
         refreshFlash();
     }//GEN-LAST:event_formWindowLostFocus
 

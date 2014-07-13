@@ -31,14 +31,35 @@ public class Proposal
     private Map<Integer, ProposalAdmin> proposalAdmins = new HashMap<Integer, ProposalAdmin>(); 
     private ProposalStatus proposalStatus;
 
+    // accessors, some more for testing
     public Integer getId() { return id; }
-
-    public Map<Integer, ProposalApplicableReview> getProposalApplicableReviews() {
-        return proposalApplicableReviews;
-    }    
+    public ProposalType getProposalType() { return proposalType; }
+    public ProspectusCode getProspectusCode() { return prospectusCode; }
+    public UserId getDelegator() { return delegator; }
+    public UserId getProposer() { return proposer; }
+    public Date getProposed() { return proposed; }    
+    protected static void resetCounter() { counter = 0; } // XXX
+    public Map<Integer, ProposalApplicableReview> getProposalApplicableReviews() { return proposalApplicableReviews; }    
+    public AdminInformation getAdminInformation() { return adminInformation; }
+    public Map<Integer, ProposalDetail> getProposalDetails() { return proposalDetails; }
+    public Map<Integer, ProposalReview> getProposalReviews() { return proposalReviews; }
+    public Integer getProposalReviewsCount() { return proposalReviews.size(); }
+    public ProposalReview getLastProposalReview() { return proposalReviews.get(proposalReviews.size()-1); }    
+    public Map<ProposalApplicableReview, Set<ProposalReview>> getProposalApplicationReviewSubmissions() { return proposalApplicationReviewSubmissions; }
+    public ProposalApplicableReview getProposalApplicableReviewFor(ProposalReview proposalReview ) { 
+        for (Iterator i = proposalApplicationReviewSubmissions.keySet().iterator(); i.hasNext();) { 
+            ProposalApplicableReview proposalApplicableReview = (ProposalApplicableReview) i.next();
+            if (proposalApplicationReviewSubmissions.get(proposalApplicableReview).contains(proposalReview)) return proposalApplicableReview;            
+        }
+        // else
+        return null;
+    }              
+    public Map<Integer, ProposalRequiredAdmin> getProposalRequiredAdmins() { return proposalRequiredAdmins; }
+    public Map<Integer, ProposalAdmin> getProposalAdmins() { return proposalAdmins; }
+    public ProposalStatus getProposalStatus() { return proposalStatus; }    
         
     // @post a new Proposal instance is created, and returned
-    public Proposal(ProposalType proposalType, ProspectusCode prospectusCode, UserId delegator) //throws Exception
+    public Proposal(ProposalType proposalType, ProspectusCode prospectusCode, UserId delegator) throws ProposalCheckException
     {                
         // compute metadata
         UserId proposer = UserManager.getCurrentUserId();  // -> "user"
@@ -55,7 +76,7 @@ public class Proposal
         if (!proposalChecker.check(data)) { // updates 'Flash' with any problem details
             System.out.println("ProposalCheckException");
             // @post or an exception is raised
-            //throw new ProposalCheckException();
+            throw new ProposalCheckException();
         }
         
         // @post a new instance of a Proposal is created
@@ -96,8 +117,7 @@ public class Proposal
                         
             // @post ProposalApplicableReviews linked to the Proposal instance 
             Integer proposalApplicableReviewId = proposalApplicableReviews.size(); 
-            proposalApplicableReviews.put(proposalApplicableReviewId, proposalApplicableReview);
-            
+            proposalApplicableReviews.put(proposalApplicableReviewId, proposalApplicableReview);            
         } 
     }
     
@@ -142,19 +162,19 @@ public class Proposal
     {        
         
         ProposalReview proposalReview;        
-        //try
+        try
         {
             // initial checks
             // @pre proposalApplicableReview exists and is linked to self
             if (!(proposalApplicableReview instanceof ProposalApplicableReview) || proposalApplicableReview == null
                 || !this.proposalApplicableReviews.containsValue(proposalApplicableReview)
                ) { 
-                /* throw new ProposalReviewCheckException(); */ return; 
+                throw new ProposalReviewCheckException(); 
             }
             
             // @post create a proposal review submission 
             // @post with validated information in proposalReviewData
-           //try
+           try
             {          
                 proposalReview = new ProposalReview(
                     proposalApplicableReview,
@@ -163,16 +183,15 @@ public class Proposal
            
             }
             //@post or an exception is raised            
-            /*catch (ProposalReviewCheckException e) {
+            catch (ProposalReviewCheckException e) {
                 throw e; 
-            } */
-        } /*catch (Exception exception) { 
- //            System.out.println("Failed to create new proposal review");
-            ProposalsManager.flash.add("Failed to create new proposal review");
-            try { ProposalsManager.proposalsManagerGUI.refreshFlash(); } catch (Exception e) { } // ProposalsManager flash will contain check fail messages
+            } 
+        } catch (ProposalReviewCheckException exception) { 
+            String message = "Failed to create new proposal review";
+            System.out.println(message);
+            try { ProposalsManager.getProposalsManagerGUI().refreshFlash(); } catch (Exception e) { } // flash will contain check fail messages
             return;
-            // http://docs.oracle.com/javase/tutorial/essential/exceptions/throwing.html
-        } */
+        } 
         
         // add to proposal reviews list
         Integer proposalReviewId = proposalReviews.size();  
@@ -200,8 +219,8 @@ public class Proposal
         String message = proposalApplicableReview.getReview()+" submitted.";
         System.out.println(message);
         try {
-            ProposalsManager.flash.set(message);            
-            ProposalsManager.proposalsManagerGUI.refreshFlash(); 
+            ProposalsManager.getFlash().set(message);            
+            ProposalsManager.getProposalsManagerGUI().refreshFlash(); 
         } catch (Exception e) { }
     }    
         

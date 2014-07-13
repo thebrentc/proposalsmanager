@@ -10,11 +10,14 @@ public class ProposalReview  {
     
     static private Integer counter = 0; // used to compute id's    
     private Integer id;    
-    //private Map <Integer, ProposalApplicableReview> proposalApplicableReview =  new HashMap<>(); // optional
     private ProposalReviewData proposalReviewData = new ProposalReviewData();
+
+    public Integer getId() { return id; }
+    public ProposalReviewData getProposalReviewData() { return proposalReviewData; }
+    
     
     // @post creates and returns an instance of a ProposalReview submission     
-    public ProposalReview(ProposalApplicableReview proposalApplicableReview, ProposalReviewData proposalReviewData) //throws PropProposalReviewData1eption 
+    public ProposalReview(ProposalApplicableReview proposalApplicableReview, ProposalReviewData proposalReviewData) throws ProposalReviewCheckException
     {        
         // compute and add metadata        
         UserId reviewer = UserManager.getCurrentUserId();  // -> "User"
@@ -28,7 +31,7 @@ public class ProposalReview  {
         ProposalReviewChecker proposalReviewChecker = new ProposalReviewChecker();
         if (!proposalReviewChecker.check(proposalApplicableReview, proposalReviewData)) { 
             System.out.println("ProposalReviewCheckException");
-            // throw new ProposalReviewCheckException(); // @post or an exception is raised       
+            throw new ProposalReviewCheckException(); // @post or an exception is raised       
         }                
         
         this.proposalReviewData = proposalReviewData;        
