@@ -8,9 +8,8 @@ public class BusinessPlanReview extends StandardReview {
     
     public boolean check(ProposalReviewData proposalReviewData)
     {
-        super.check(proposalReviewData);
-        // no additional checks needed for business review (allows blank comments, tbc)
-        return true;
+        // no additional checks needed for business review (allows blank comments, tbc)        
+        return super.check(proposalReviewData);
     }
     
 }

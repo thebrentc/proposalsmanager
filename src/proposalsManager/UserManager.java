@@ -14,12 +14,13 @@ public class UserManager // TODO
 {
     
     private static final UserId currentUser = new UserId("user"); 
+    private static UserId overrideUser = null;  // testing
     
     public static final Map<String,ArrayList> delegations = new HashMap<String, ArrayList>(); 
     
     public UserManager()
     {
-        UserManager.initDelegations();
+        //UserManager.initDelegations();
     }
     
     static void initDelegations() {
@@ -59,9 +60,14 @@ public class UserManager // TODO
     
     static UserId getCurrentUserId() 
     {
-        return currentUser;
-    }
+        return (overrideUser != null)?overrideUser:currentUser;
+    }       
     
+    static boolean isValidUser(UserId userid)    
+    {
+        //TODO
+        return true;
+    }    
     
     static boolean isStaff(UserId userid) 
     {
@@ -84,11 +90,18 @@ public class UserManager // TODO
     static boolean isFacultyAcademicStaff(UserId userid)
     {
         return isStaff(userid) && isFaculty(userid) && isAcademic(userid);
-    }        
+    }              
     
-    static boolean isValidUser(UserId userid)    
+    // needed for testing
+    // XXX: trades application security for testability?
+    static void overrideCurrentUserId(UserId userid) 
     {
-        //TODO
-        return true;
-    }    
+        overrideUser = userid;
+    }   
+    
+    static void cancelOverrideCurrentUserId() 
+    {
+        overrideUser = null;
+    }       
+    
 }

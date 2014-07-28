@@ -264,6 +264,8 @@ public class ProposalReviewGUI extends javax.swing.JFrame {
         this.dispose();
         this.proposalReviewsGUI.setVisible(true);
         this.proposalReviewsGUI.updateProposalApplicableReviewsList();
+        this.proposalReviewsGUI.updateProposalInfo();
+        ProposalsManager.getProposalsManagerGUI().refreshProposalsList();                
         
     }//GEN-LAST:event_jButtonSubmitActionPerformed
 

@@ -65,7 +65,7 @@ public class Proposal
         UserId proposer = UserManager.getCurrentUserId();  // -> "user"
         Date proposed = new Date();
 
-        // @post validate (and check) information 
+        // @post validate (and check) information and @pre user validation
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("proposer", proposer);
         data.put("proposed", proposed);
@@ -109,10 +109,10 @@ public class Proposal
         ArrayList<ApplicableReview> applicableReviews = ApplicableReviewsList.getApplicableReviews(proposalType);
         
         // use list to create applicable reviews specific to this proposal
-        ReviewSimpleFactory reviewSimpleFactory = new ReviewSimpleFactory();        
+        ReviewSimpleReflexiveFactory reviewFactory = new ReviewSimpleReflexiveFactory();        
         for (ApplicableReview applicableReview : applicableReviews) {
             // @post created ProposalApplicableReviews linked to a Review of specified type
-            ProposalApplicableReview proposalApplicableReview = new ProposalApplicableReview(reviewSimpleFactory.create(applicableReview.getReviewType()), applicableReview.getWeight());
+            ProposalApplicableReview proposalApplicableReview = new ProposalApplicableReview(reviewFactory.create(applicableReview.getReviewType()), applicableReview.getWeight());
             // ProposalApplicableReview() has default initialisation of reviewStatus                        
                         
             // @post ProposalApplicableReviews linked to the Proposal instance 
@@ -214,7 +214,13 @@ public class Proposal
         updateProposalApplicableReviewDependencies();  
         
         // update Proposal status
-        this.proposalStatus = ProposalStatus.REVIEWING;
+        if (proposalApplicableReview.getReview().getClass() == CommitteeReview.class && proposalApplicableReview.isDone()) {
+            if (proposalApplicableReview.getReviewStatus().toString() == "Approved") this.proposalStatus = ProposalStatus.APPROVED;
+            else if (proposalApplicableReview.getReviewStatus().toString() == "Rejected") this.proposalStatus = ProposalStatus.REJECTED;            
+        } 
+        else {
+            this.proposalStatus = ProposalStatus.REVIEWING;
+        }
         
         String message = proposalApplicableReview.getReview()+" submitted.";
         System.out.println(message);

@@ -22,7 +22,6 @@ public class ProposalsManagerTestDrive extends ProposalsManager {
         ProposalsManager.main(args);     
         
         ProposalsManager.populateSampleProposals();
-        ProposalsManager.getProposalsManagerGUI().refreshProposalsList();        
         
         ProposalReviewData proposalReviewData = new ProposalReviewData();
         ProposalReviewData reviewGeneralInfo = new ProposalReviewData(ReviewGeneralInfo.class);
@@ -68,6 +67,8 @@ public class ProposalsManagerTestDrive extends ProposalsManager {
         proposalReviewData.add(reviewDecision);
         ProposalsManager.getProposals().get(0).submitReview(ProposalsManager.getProposals().get(0).getProposalApplicableReviews().get(3), proposalReviewData); 
         */
+        
+        ProposalsManager.getProposalsManagerGUI().refreshProposalsList();                
                         
     }    
     

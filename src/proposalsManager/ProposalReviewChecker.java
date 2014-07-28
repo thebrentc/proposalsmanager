@@ -10,7 +10,8 @@ class ProposalReviewChecker {
         // and call each review component to run basic validation checks
         // review subtypes and components can add additional checks
         Review review = proposalApplicableReview.getReview();
-        return review.check(proposalReviewData);
+        Boolean result = review.check(proposalReviewData);
+        return result;
         
         // add additional checks if needed 
         

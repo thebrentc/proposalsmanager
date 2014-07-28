@@ -1,6 +1,9 @@
 package proposalsManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.junit.After;
@@ -68,7 +71,7 @@ public class ProposalTest {
         proposalReviewData.add(reviewQuery);
         proposalInstance.submitReview(proposalInstance.getProposalApplicableReviews().get(1), proposalReviewData);
     }    
-    
+        
     private void setUpQAReviewWithApproval() {    
         ProposalReviewData proposalReviewData = new ProposalReviewData();   
         ProposalReviewData reviewGeneralInfo = new ProposalReviewData(ReviewGeneralInfo.class);        
@@ -88,7 +91,7 @@ public class ProposalTest {
     private void setUpInvalidFormalReviewWithoutDecisionComponent() {    
         ProposalReviewData proposalReviewData = new ProposalReviewData();   
         ProposalReviewData reviewGeneralInfo = new ProposalReviewData(ReviewGeneralInfo.class);        
-        reviewGeneralInfo.add(new ProposalReviewComponentItem("comments","Test QA review"));
+        reviewGeneralInfo.add(new ProposalReviewComponentItem("comments","Test Invalid QA review"));
         reviewGeneralInfo.add(new ProposalReviewComponentItem("delegator",null));
         proposalReviewData.add(reviewGeneralInfo);
         ProposalReviewData reviewQuery = new ProposalReviewData(ReviewQuery.class);        
@@ -137,6 +140,21 @@ public class ProposalTest {
     }
     
     /**
+     * Test submitReview, user check conditions
+     */
+    public void testSubmitReviewUserChecks() throws ComponentNotFoundException {
+        System.out.println("testSubmitReviewUserChecks");
+        setUpBusinessReview(); 
+        ProposalReview instance = proposalInstance.getLastProposalReview();        
+        ProposalReviewData proposalReviewData = instance.getProposalReviewData();
+        // recheck with Review userCheck() function 
+        ProposalApplicableReview linkedInstance = proposalInstance.getProposalApplicableReviewFor(instance);        
+        Review review = linkedInstance.getReview();
+        assert(!review.reviewContacts.isEmpty()); // (this review type should specific ReviewContacts for testing)
+        assertEquals(review.userChecks(proposalReviewData),true);
+    }        
+    
+    /**
      * Test of submitReview method of class Proposal, linked ProposalApplicableReview status update
      */
     @Test
@@ -148,7 +166,7 @@ public class ProposalTest {
     }    
         
     /**
-     * Test some invalid review submissions
+     * Test submitReview with some generally invalid review submissions
      */
     @Test
     public void testSubmitInvalidReview() {
@@ -160,10 +178,16 @@ public class ProposalTest {
     }        
     
     /**
-     * Specifically test submitReviewwith failed user check conditions
+     * Test submitReview with invalid user details
+     * 
      */
-    // TODO
-    
+    @Test
+    public void testSubmitReviewWithInvalidUsers() {
+        UserManager.overrideCurrentUserId(new UserId("user3")); // not in review contacts 
+        setUpBusinessReviewWithQuery(); // should not complete
+        assert(proposalInstance.getProposalReviewsCount() == 0);                
+        UserManager.cancelOverrideCurrentUserId();
+    }            
     
     /**
      * Test of StandardReview, with query
@@ -181,7 +205,8 @@ public class ProposalTest {
         // include status update check
         ProposalApplicableReview linkedInstance = proposalInstance.getProposalApplicableReviewFor(instance);
         assertEquals(linkedInstance.getReviewStatus().toString(),"Queried");                
-    }                
+    }   
+    
         
     /**
      * Test of FormalReview, with approval
@@ -214,15 +239,46 @@ public class ProposalTest {
         assert(proposalInstance.getProposalReviewsCount() == reviewCount);
     }        
     
+    /**
+     * Helper - check current proposalApplicableReviewDependencies are all ok 
+     * (business rule dependent -ref Proposal.UpdateProposalApplicableReviewDependencies)
+     */    
+    private boolean checkUpdateProposalApplicableReviewDependencies(Proposal proposal) {
+
+        // get proposalApplicableReviews sorted by weight
+        List<ProposalApplicableReview> applicableReviews = new ArrayList<>(proposal.getProposalApplicableReviews().values());
+        Collections.sort(applicableReviews);
+
+        for (int i = applicableReviews.size()-1; i > 0; i--) {
+            Boolean expected = applicableReviews.get(i).isOutstanding()?true:false;
+            for (int j = i-1; j > 0; j--) {
+                if (applicableReviews.get(j).isRequired()
+                    && applicableReviews.get(j).isOutstanding()
+                    && applicableReviews.get(j).getWeight() < applicableReviews.get(i).getWeight()
+                    ) {
+                    expected = false; break;
+                }
+            }
+            if (applicableReviews.get(i).isAllowed() != expected) return false;
+        }          
+        // else
+        return true;
+    }
     
     
     /**
-     * Workout of updateProposalApplicableReviewDependencies, checking proposalApplicableReviews allowed statuses
+     * Workout of updateProposalApplicableReviewDependencies, checking proposalApplicableReviews allowed statuses at each step
      */
     @Test
     public void testUpdateProposalApplicableReviewDependencies() {
-        System.out.println("testSubmitReviewAllStatusesUpdate");
+        System.out.println("testUpdateProposalApplicableReviewDependencies");
+        setUpGeneralReview(); 
+        assertEquals(checkUpdateProposalApplicableReviewDependencies(proposalInstance),true);
         setUpBusinessReview();
+        assertEquals(checkUpdateProposalApplicableReviewDependencies(proposalInstance),true);
+        setUpQAReviewWithApproval();
+        assertEquals(checkUpdateProposalApplicableReviewDependencies(proposalInstance),true);
+        // ...
     }        
     
 }

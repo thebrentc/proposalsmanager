@@ -36,6 +36,7 @@ public class ProposalApplicableReview implements Comparable<ProposalApplicableRe
         counter++;
     }    
     
+    // provide for Comparable
     public int compareTo(ProposalApplicableReview proposalApplicableReview) {
         return (this.weight < proposalApplicableReview.weight)?-1:(this.weight > proposalApplicableReview.weight)?+1:0;
     }

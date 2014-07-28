@@ -14,7 +14,9 @@ public class ProposalsManager {
     public static ProposalsManagerGUI getProposalsManagerGUI() { return proposalsManagerGUI; }
     public static Flash getFlash() { return flash; }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) {      
+        
+        assert UserManager.getCurrentUserId() instanceof UserId && UserManager.getCurrentUserId() != null : "Problem with user authentication link";
         
         UserManager.initDelegations();
         //UserManager.showDelegations();
@@ -29,7 +31,7 @@ public class ProposalsManager {
             // @post a new instance of a Proposal is created
             proposal = new Proposal(proposalType, code, delegator);        
         } 
-        // @post with validated initial information 
+        // @post with validated initial information and @pre user validation
         // @post or an exception is raised        
         catch (Exception e) {
             String message = "Failed to create new proposal";

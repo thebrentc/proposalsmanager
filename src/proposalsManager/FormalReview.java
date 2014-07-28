@@ -37,32 +37,4 @@ public abstract class FormalReview extends StandardReview {
         
         return recommendation;    
     }
-        
-    /*
-    public boolean check(ProposalReviewData proposalReviewData)
-    {
-        boolean checks = true;
-        if (!super.check(proposalReviewData)) { checks = false; }                
-        
-        // additional checks for formal review 
-        // should have either query or decision, not both        
-        System.out.println("FormalReview::check()");        
-        
-        // get relevant submission items
-        Map<String, Object> reviewGeneralInfo = (Map) proposalReviewData.get(ReviewGeneralInfo.class);
-        Map<String, Object> reviewDecision = (Map) proposalReviewData.get(ReviewDecision.class);
-        Decision decision = null;
-        String query = "";
-        if (reviewGeneralInfo.containsKey("query")) query = (String) reviewGeneralInfo.get("query");
-        if (reviewDecision.containsKey("decision")) decision = (Decision) reviewGeneralInfo.get("decision");
-        // and check
-        if (decision != null && !query.equals("")) {
-            String message = "A formal review can have a query or a decision, but not both.";
-            System.out.println(message);    
-            try { ProposalsManager.flash.add(message); } catch (Exception e) { }
-            checks = false;
-        }
-        return checks;
-    }    
-*/
 }

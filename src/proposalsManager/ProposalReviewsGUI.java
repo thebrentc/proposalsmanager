@@ -152,8 +152,6 @@ public class ProposalReviewsGUI extends javax.swing.JFrame {
         int index = jProposalRequiredReviews.getSelectedIndex();
 
         ProposalApplicableReview proposalApplicableReview = proposal.getProposalApplicableReviews().get(index);
-        System.out.println(proposalApplicableReview.getClass());
-        System.out.println(index + this.proposal.toString() + proposalApplicableReview.toString());
         ProposalReviewGUI proposalReviewGUI = new ProposalReviewGUI(this, this.proposal, proposalApplicableReview);
         proposalReviewGUI.setVisible(true);
     }//GEN-LAST:event_jButtonReviewActionPerformed

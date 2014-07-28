@@ -18,7 +18,7 @@ abstract class Review {
     // @pre user and delegator checks
     // @post validated information in proposalReviewData
     public boolean check(ProposalReviewData proposalReviewData)
-    {                        
+    {           
         return (
                 validateRequiredReviewData(proposalReviewData)
                 && 
