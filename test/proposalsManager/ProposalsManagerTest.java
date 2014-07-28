@@ -17,8 +17,6 @@ public class ProposalsManagerTest {
     
     @BeforeClass
     public static void setUpClass() {
-        // TODO Login as test user?
-        // ..
         // fixture for happy path tests
         ProposalType proposalType = new ProposalType("NewModule");
         ProspectusCode code = new ProspectusCode("CODE");
