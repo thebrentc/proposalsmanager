@@ -3,8 +3,36 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Brent%20Cunningham/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/Proposal.java</file>
-            <file>file:/C:/Users/Brent%20Cunningham/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalsManager.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalsManager.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/Proposal.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalChecker.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalApplicableReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalReviewChecker.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalReviewData.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalReviewComponent.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ProposalReviewComponentItem.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/Review.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ReviewComponent.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ReviewComponents.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ReviewComponentItem.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/GeneralReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/StandardReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/BusinessPlanReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/FormalReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/QAReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/CommitteeReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ReviewMetaData.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ReviewGeneralInfo.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ReviewQuery.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ReviewDecision.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/UserManager.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/UserId.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ApplicableReviewsList.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ApplicableReview.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/src/proposalsManager/ReviewStatus.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/test/proposalsManager/ProposalsManagerTestSuite.java</file>
+            <file>file:/home/brent/Dropbox/cs/M813/NetBeansProjects/ProposalsManager/test/proposalsManager/ProposalsManagerTest.java</file>
         </group>
     </open-files>
 </project-private>

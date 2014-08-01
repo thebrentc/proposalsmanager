@@ -129,8 +129,6 @@ public class Proposal
     {
         // @ pre (updateProposalApplicableReviewDependencies) the allowed flags of this Proposal instance’s proposalApplicableReviews have been initialised 
         // (allowed if proposalApplicableReview is optional or in the first ‘weighting’ level of these proposalApplicableReviews)        
-
-        // set first level of required review(s) to allowed 
         // builds on default initialisation of allowed statuses in ProposalApplicableReview()        
         
         // get a list of proposalApplicableReviews sorted by weight        
