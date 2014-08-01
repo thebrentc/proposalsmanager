@@ -105,6 +105,9 @@ public class Proposal
     // @post ProposalApplicableReview instances are created (based on ApplicableReviewsList)    
     private void createProposalApplicableReviews() 
     {       
+        // @pre the ApplicableReviewsList lookup class exists
+        assert(ApplicableReviewsList.class.toString().contains("ApplicableReviewsList"));
+        
         // get list of applicable reviews for this proposal type
         ArrayList<ApplicableReview> applicableReviews = ApplicableReviewsList.getApplicableReviews(proposalType);
         
